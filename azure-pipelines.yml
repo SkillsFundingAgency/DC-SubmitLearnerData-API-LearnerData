@@ -1,0 +1,95 @@
+
+name:  $(GitVersion.NuGetVersion)
+
+resources:
+- repo: self
+  fetchDepth: 30
+
+variables:
+  BuildConfiguration: 'Release'
+  BuildPlatform: 'Any CPU'
+
+stages:
+- stage: Build
+  displayName: Build stage
+  jobs:  
+  - job: Build
+    displayName: Build
+    pool:
+      name: DCT
+      demands:
+      - BuildServer
+
+    steps:
+    - task: DotNetCoreInstaller@2
+      inputs:
+        version: 3.1.100
+      displayName: 'Use .NET Core sdk 3.1.100'
+
+    - task: NuGetToolInstaller@0
+      displayName: 'Use NuGet >=5.3.1'
+      enabled: false
+      inputs:
+        versionSpec: '>=5.3.1'
+
+    - task: gittools.gitversion.gitversion-task.GitVersion@4
+      inputs:
+        updateAssemblyInfo: true
+        preferBundledVersion: false
+      displayName: GitVersion
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Restore Nuget packages'
+      inputs:
+        command: 'restore'
+        projects: '**/*.csproj'
+        feedsToUse: 'select'
+        vstsFeed: 'dct-pkg'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Build Solution'
+      inputs:
+        command: 'build'
+        vstsFeed: 'dct-pkg'
+        projects: '**/*.csproj'
+        configuration: $(BuildConfiguration) 
+        arguments: '-p:version="$(GitVersion.AssemblySemVer)" -p:FileVersion="$(GitVersion.AssemblySemFileVer)"'
+
+    ## Generate the report using ReportGenerator (https://github.com/danielpalme/ReportGenerator)
+    # First install the tool on the machine, then run it
+    - script: |
+        dotnet tool install -g dotnet-reportgenerator-globaltool --version 4.3.6  
+        reportgenerator -reports:$(Build.SourcesDirectory)/**/*Tests/**/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/CodeCoverage -reporttypes:Cobertura
+      displayName: Create Code coverage report
+      enabled: false
+   
+    # Publish the code coverage result (summary and web site)
+    # The summary allows to view the coverage percentage in the summary tab
+    # The web site allows to view which lines are covered directly in Azure Pipeline
+    - task: PublishCodeCoverageResults@1
+      displayName: 'Publish code coverage'
+      enabled: false
+      inputs:
+        codeCoverageTool: Cobertura
+        summaryFileLocation: '$(Build.SourcesDirectory)/CodeCoverage/Cobertura.xml'
+        reportDirectory: '$(Build.SourcesDirectory)/CodeCoverage'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Package Api Artifact Folder'
+      inputs:
+        command: publish
+        configuration: $(BuildConfiguration) 
+        publishWebProjects: false
+        zipAfterPublish: true
+        nobuild: true
+        projects: '**/ESFA.DC.PublicApi.FCS.csproj'
+        arguments: '--output "$(build.artifactstagingdirectory)\Web\API" -p:version="$(Build.BuildNumber)" -p:FileVersion="$(Build.BuildNumber)"'
+        vstsFeed: 'dct-pkg'
+
+    ## Publish Web Artifacts
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact: Web'
+      enabled: true
+      inputs:
+        ArtifactName: Web
+        PathtoPublish: '$(build.artifactstagingdirectory)\Web'
