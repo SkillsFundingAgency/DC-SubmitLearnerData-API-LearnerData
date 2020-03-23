@@ -10,19 +10,28 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="5.1.2" />
-    <PackageReference Include="ESFA.DC.Api.Common" Version="1.0.16" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="ESFA.DC.Api.Common" Version="1.0.18" />
     <PackageReference Include="ESFA.DC.Logging" Version="0.1.10-beta0001" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="3.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="4.1.1" />
-    <PackageReference Include="NSwag.AspNetCore" Version="13.2.5" />
-    <PackageReference Include="NSwag.Core" Version="13.2.5" />
-    <PackageReference Include="NSwag.Generation" Version="13.2.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.1" />
+    <PackageReference Include="NSwag.AspNetCore" Version="13.3.0" />
+    <PackageReference Include="NSwag.Core" Version="13.3.0" />
+    <PackageReference Include="NSwag.Generation" Version="13.3.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\ESFA.DC.PublicApi.AS.Dtos\ESFA.DC.PublicApi.AS.Dtos.csproj" />
     <ProjectReference Include="..\..\ESFA.DC.PublicApi.AS.Services\ESFA.DC.PublicApi.AS.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.salman.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

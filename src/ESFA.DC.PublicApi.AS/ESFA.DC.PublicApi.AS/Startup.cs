@@ -8,6 +8,7 @@ using ESFA.DC.Api.Common.Ioc.Modules;
 using ESFA.DC.Api.Common.Settings;
 using ESFA.DC.Api.Common.Settings.Extensions;
 using ESFA.DC.Api.Common.Utilities.Filters;
+using ESFA.DC.PublicApi.AS.Ioc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -174,6 +175,7 @@ namespace ESFA.DC.PublicApi.AS
             containerBuilder.SetupConfigurations(Configuration);
             containerBuilder.RegisterModule<ServiceRegistrations>();
             containerBuilder.RegisterModule<LoggerRegistrations>();
+            containerBuilder.RegisterModule<IdentityRegistrationModule>();
         }
     }
 }
