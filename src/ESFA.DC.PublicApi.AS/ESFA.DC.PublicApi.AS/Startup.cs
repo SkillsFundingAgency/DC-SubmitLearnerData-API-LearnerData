@@ -3,7 +3,9 @@ using System.IO;
 using System.IO.Compression;
 using System.Text;
 using Autofac;
+using ESFA.DC.Api.Common.Identity.Services;
 using ESFA.DC.Api.Common.Identity.Services.Handlers;
+using ESFA.DC.Api.Common.Identity.Services.IocModules;
 using ESFA.DC.Api.Common.Ioc.Modules;
 using ESFA.DC.Api.Common.Settings;
 using ESFA.DC.Api.Common.Settings.Extensions;
@@ -98,31 +100,8 @@ namespace ESFA.DC.PublicApi.AS
                 };
             });
 
-            var authSettings = Configuration.GetConfigSection<AuthSettings>();
-
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = "Jwt";
-                options.DefaultChallengeScheme = "Jwt";
-            }).AddJwtBearer("Jwt", options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateAudience = false,
-
-                    // ValidAudience = "the audience you want to validate",
-                    ValidateIssuer = false,
-
-                    // ValidIssuer = "the issuer you want to validate",
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authSettings.SecurityHash)),
-
-                    ValidateLifetime = true, //validate the expiration and not before values in the token
-
-                    ClockSkew = TimeSpan.FromMinutes(5) //5 minute tolerance for the expiration date
-                };
-            });
-
+            services.AddJwtTokenAuthentication(Configuration);
+            
             services.AddSwaggerDocument(options =>
             {
                 options.Title = "Public FCS api";
@@ -175,7 +154,7 @@ namespace ESFA.DC.PublicApi.AS
             containerBuilder.SetupConfigurations(Configuration);
             containerBuilder.RegisterModule<ServiceRegistrations>();
             containerBuilder.RegisterModule<LoggerRegistrations>();
-            containerBuilder.RegisterModule<IdentityRegistrationModule>();
+            containerBuilder.RegisterModule<IdentityRegistrations>();
         }
     }
 }
