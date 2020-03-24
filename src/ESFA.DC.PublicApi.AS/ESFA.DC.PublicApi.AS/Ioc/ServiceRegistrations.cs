@@ -24,7 +24,7 @@ namespace ESFA.DC.PublicApi.AS.Ioc
                     var connectionStrings = context.Resolve<ConnectionStrings>();
                     var optionsBuilder = new DbContextOptionsBuilder<ILR1920_DataStoreEntitiesValid>();
                     optionsBuilder.UseSqlServer(
-                        connectionStrings.ConnectionStringsDictionary["ILR1920DataStore"],
+                        connectionStrings.KeyValues["ILR1920DataStore"],
                         options => options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>()));
 
                     return optionsBuilder.Options;
@@ -38,7 +38,7 @@ namespace ESFA.DC.PublicApi.AS.Ioc
                     var connectionStrings = context.Resolve<ConnectionStrings>();
                     var optionsBuilder = new DbContextOptionsBuilder<ILR1920_DataStoreEntities>();
                     optionsBuilder.UseSqlServer(
-                        connectionStrings.ConnectionStringsDictionary["ILR1920DataStore"],
+                        connectionStrings.KeyValues["ILR1920DataStore"],
                         options => options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>()));
 
                     return optionsBuilder.Options;

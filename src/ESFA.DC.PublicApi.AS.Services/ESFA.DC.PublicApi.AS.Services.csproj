@@ -5,10 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ESFA.DC.Api.Common" Version="1.0.25" />
+    <PackageReference Include="ESFA.DC.Api.Common" Version="1.0.28" />
     <PackageReference Include="ESFA.DC.ILR1920.Database.EF" Version="0.0.561" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.4" />
   </ItemGroup>
 
   <ItemGroup>
