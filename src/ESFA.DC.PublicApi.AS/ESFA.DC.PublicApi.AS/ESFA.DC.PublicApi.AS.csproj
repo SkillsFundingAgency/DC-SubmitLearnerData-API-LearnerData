@@ -11,8 +11,8 @@
   <ItemGroup>
     <PackageReference Include="Autofac" Version="5.1.2" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
-    <PackageReference Include="ESFA.DC.Api.Common" Version="1.0.28" />
-    <PackageReference Include="ESFA.DC.Api.Common.Identity.Services" Version="1.0.10" />
+    <PackageReference Include="ESFA.DC.Api.Common" Version="0.1.1" />
+    <PackageReference Include="ESFA.DC.Api.Common.Identity.Services" Version="0.1.1" />
     <PackageReference Include="ESFA.DC.Logging" Version="0.1.10-beta0001" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="4.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.4" />
