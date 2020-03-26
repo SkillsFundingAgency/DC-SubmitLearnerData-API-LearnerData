@@ -13,6 +13,6 @@ namespace ESFA.DC.PublicApi.AS.Dtos
         public DateTime? DateOfBirth { get; set; }
         public string NINumber { get; set; }
        
-        public IReadOnlyList<LearningDelivery> LearningDeliveries { get; set; }
+        public List<LearningDelivery> LearningDeliveries { get; set; }
     }
 }

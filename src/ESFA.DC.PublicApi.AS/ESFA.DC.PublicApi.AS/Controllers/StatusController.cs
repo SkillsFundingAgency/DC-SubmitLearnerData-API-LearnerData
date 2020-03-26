@@ -10,7 +10,7 @@ namespace ESFA.DC.PublicApi.AS.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok();
+            return Ok("ok");
         }
     }
 }

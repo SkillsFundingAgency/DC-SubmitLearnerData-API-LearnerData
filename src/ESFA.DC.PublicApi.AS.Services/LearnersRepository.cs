@@ -63,7 +63,7 @@ namespace ESFA.DC.PublicApi.AS.Services
 
             using (var context = _ilr1819ValidContext())
             {
-                var query = context.Learners.Include(x => x.LearningDeliveries)
+                var query = context.Learners
                     .Where(x => (providers.Contains(x.UKPRN))
                                 && x.LearningDeliveries != null
                                 && (fundModel == null || fundModel.Length == 0 || x.LearningDeliveries.Any(y => fundModel.Contains(y.FundModel)))
