@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ESFA.DC.Api.Common.Utilities.Interfaces;
-using ESFA.DC.Api.Common.Utilities.Pagination;
+using ESFA.DC.Api.Common.Paging.Interfaces;
+using ESFA.DC.Api.Common.Paging.Pagination;
 using ESFA.DC.ILR1920.DataStore.EF.Interface;
 using ESFA.DC.ILR1920.DataStore.EF.Valid;
 using ESFA.DC.ILR1920.DataStore.EF.Valid.Interface;

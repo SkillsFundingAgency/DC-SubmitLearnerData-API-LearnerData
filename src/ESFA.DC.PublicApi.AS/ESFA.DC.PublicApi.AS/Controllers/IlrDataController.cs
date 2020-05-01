@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ESFA.DC.Api.Common.Utilities.Extensions;
+using ESFA.DC.Api.Common.Extensions;
 using ESFA.DC.Logging.Interfaces;
+using ESFA.DC.PublicApi.AS.Constants;
 using ESFA.DC.PublicApi.AS.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ESFA.DC.PublicApi.AS.Controllers
 {
-    [Microsoft.AspNetCore.Authorization.Authorize(Roles = "EMPCHECK,EPAO")]
+    [Microsoft.AspNetCore.Authorization.Authorize(Policy = PolicyNameConstants.DataAccess)]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/ilr-data/1920")]
     [ApiController]
