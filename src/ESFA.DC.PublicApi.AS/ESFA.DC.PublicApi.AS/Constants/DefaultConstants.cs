@@ -1,4 +1,4 @@
-﻿namespace ESFA.DC.PublicApi.AS
+﻿namespace ESFA.DC.PublicApi.AS.Constants
 {
     public static class DefaultConstants
     {
