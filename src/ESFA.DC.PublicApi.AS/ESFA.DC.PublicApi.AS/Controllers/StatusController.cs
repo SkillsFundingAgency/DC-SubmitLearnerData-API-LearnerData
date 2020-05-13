@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ESFA.DC.PublicApi.AS.Controllers
 {
     [ApiVersion("1.0")]
+    [AllowAnonymous]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     public class StatusController : ControllerBase
@@ -11,6 +13,6 @@ namespace ESFA.DC.PublicApi.AS.Controllers
         public IActionResult Get()
         {
             return Ok("ok");
-        }
+        }   
     }
 }
