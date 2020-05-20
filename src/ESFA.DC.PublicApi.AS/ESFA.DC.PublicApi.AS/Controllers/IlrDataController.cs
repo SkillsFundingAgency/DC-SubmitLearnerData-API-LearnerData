@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.Api.Common.Extensions;
 using ESFA.DC.Logging.Interfaces;
@@ -28,6 +29,7 @@ namespace ESFA.DC.PublicApi.AS.Controllers
         /// <summary>
         /// Gets providers based on criteria
         /// </summary>
+        ///<param name="cancellationToken"></param>
         /// <param name="startDateTime">filter based on when provider file submission date time - this date time will be used to get records from that date time onwards</param>
         /// <param name="pageSize"></param>
         /// <param name="pageNumber"></param>
@@ -41,11 +43,11 @@ namespace ESFA.DC.PublicApi.AS.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(StatusCodes), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(StatusCodes), StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<List<int>>> GetProviders([FromQuery]DateTime? startDateTime = null, [FromQuery]int? pageSize = null, [FromQuery]int? pageNumber = null)
+        public async Task<ActionResult<List<int>>> GetProviders(CancellationToken cancellationToken, [FromQuery]DateTime? startDateTime = null, [FromQuery]int? pageSize = null, [FromQuery]int? pageNumber = null)
         {
             try
             {
-                var providerResults = await _learnersRepository.GetSubmittingProviders(startDateTime, pageSize ?? DefaultConstants.DefaultPageSize, pageNumber ?? DefaultConstants.DefaultPageNumber);
+                var providerResults = await _learnersRepository.GetSubmittingProviders(cancellationToken, startDateTime, pageSize ?? DefaultConstants.DefaultPageSize, pageNumber ?? DefaultConstants.DefaultPageNumber);
 
                 if (providerResults?.TotalItems > 0)
                 {
@@ -71,6 +73,7 @@ namespace ESFA.DC.PublicApi.AS.Controllers
         /// <remarks>
         /// Records can be filtered by passing either no filter criteria, ukprn or start datetime (passing ukprn and start date time together will result in 400 error)
         /// </remarks>
+        ///<param name="cancellationToken"></param>
         /// <param name="startDateTime">filter based on when provider file submission date time - this date time will be used to get records from that date time onwards</param>
         /// <param name="ukprn">pass this value in if learners should be filtered by a ukprn</param>
         /// <param name="aimType"></param>
@@ -93,7 +96,8 @@ namespace ESFA.DC.PublicApi.AS.Controllers
         [ProducesResponseType(typeof(StatusCodes), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Dtos.Learner>> GetLearners(
-           [FromQuery]DateTime? startDateTime = null,
+            CancellationToken cancellationToken, 
+            [FromQuery]DateTime? startDateTime = null,
            [FromQuery]int? ukprn = null,
            [FromQuery]int? aimType = null,
            [FromQuery]int? standardCode = null,
@@ -111,6 +115,7 @@ namespace ESFA.DC.PublicApi.AS.Controllers
                 }
 
                 var learnersResult = await _learnersRepository.GetLearners(
+                                    cancellationToken,
                                     startDateTime,
                                     ukprn,
                                     aimType,

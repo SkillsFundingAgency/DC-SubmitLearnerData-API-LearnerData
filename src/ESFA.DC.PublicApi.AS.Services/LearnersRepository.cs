@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.Api.Common.Paging.Interfaces;
 using ESFA.DC.Api.Common.Paging.Pagination;
@@ -13,28 +14,29 @@ namespace ESFA.DC.PublicApi.AS.Services
 {
     public class LearnersRepository : ILearnersRepository
     {
-        private readonly Func<IIlr1920ValidContext> _ilr1819ValidContext;
+        private readonly Func<IIlr1920ValidContext> _ilr1920ValidContext;
         private readonly Func<IIlr1920RulebaseContext> _ilr1920RulebaseContext;
 
-        public LearnersRepository(Func<IIlr1920ValidContext> ilr1819ValidContext, Func<IIlr1920RulebaseContext> ilr1920RulebaseContext)
+        public LearnersRepository(Func<IIlr1920ValidContext> ilr1920ValidContext, Func<IIlr1920RulebaseContext> ilr1920RulebaseContext)
         {
-            _ilr1819ValidContext = ilr1819ValidContext;
+            _ilr1920ValidContext = ilr1920ValidContext;
             _ilr1920RulebaseContext = ilr1920RulebaseContext;
         }
 
-        public async Task<IPaginatedResult<int>> GetSubmittingProviders(DateTime? startDateTime = null, int pageSize = 0, int pageNumber = 0)
+        public async Task<IPaginatedResult<int>> GetSubmittingProviders(CancellationToken cancellationToken, DateTime? startDateTime = null, int pageSize = 0, int pageNumber = 0)
         {
             IPaginatedResult<int> providers;
             using (var context = _ilr1920RulebaseContext())
             {
                 var query = GetSubmittedProviders(context, startDateTime);
-                providers = new PaginatedResult<int>(query, pageSize, pageNumber);
+                providers = await PaginatedResultFactory<int>.CreatePaginatedResultAsync(query, pageSize, pageNumber, cancellationToken);
             }
 
             return providers;
         }
 
         public async Task<IPaginatedResult<Dtos.Learner>> GetLearners(
+            CancellationToken cancellationToken,
             DateTime? startDateTime = null,
             int? ukprn = null,
             int? aimType = null,
@@ -57,11 +59,11 @@ namespace ESFA.DC.PublicApi.AS.Services
                 using (var context = _ilr1920RulebaseContext())
                 {
                     var providersQuery = GetSubmittedProviders(context, startDateTime);
-                    providers = await providersQuery.ToListAsync();
+                    providers = await providersQuery.ToListAsync(cancellationToken);
                 }
             }
 
-            using (var context = _ilr1819ValidContext())
+            using (var context = _ilr1920ValidContext())
             {
                 var query = context.Learners
                     .Where(x => (providers.Contains(x.UKPRN))
@@ -73,7 +75,7 @@ namespace ESFA.DC.PublicApi.AS.Services
                     .AsQueryable();
 
                 var data = ProjectLearners(query);
-                learners = new PaginatedResult<Dtos.Learner>(data, pageSize, pageNumber);
+                learners = await PaginatedResultFactory<Dtos.Learner>.CreatePaginatedResultAsync(data, pageSize, pageNumber, cancellationToken);
             }
 
             return learners;
