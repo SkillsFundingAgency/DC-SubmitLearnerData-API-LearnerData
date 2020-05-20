@@ -4,6 +4,10 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>E:\Repos\DC-SubmitLearnerData-API-LearnerData\src\ESFA.DC.PublicApi.AS\ESFA.DC.PublicApi.AS\ESFA.DC.PublicApi.AS.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <Folder Include="Controllers\" />
   </ItemGroup>
