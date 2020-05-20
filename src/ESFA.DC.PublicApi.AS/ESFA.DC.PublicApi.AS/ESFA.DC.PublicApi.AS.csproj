@@ -5,7 +5,10 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>E:\Repos\DC-SubmitLearnerData-API-LearnerData\src\ESFA.DC.PublicApi.AS\ESFA.DC.PublicApi.AS\ESFA.DC.PublicApi.AS.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
