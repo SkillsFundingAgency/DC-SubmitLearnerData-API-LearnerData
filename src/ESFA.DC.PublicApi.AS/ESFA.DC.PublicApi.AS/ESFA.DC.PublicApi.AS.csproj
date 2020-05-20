@@ -38,10 +38,4 @@
     </Content>
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="ESFA.DC.PublicApi.AS.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>
