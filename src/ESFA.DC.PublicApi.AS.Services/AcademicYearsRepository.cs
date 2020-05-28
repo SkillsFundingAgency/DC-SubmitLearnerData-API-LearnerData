@@ -33,8 +33,8 @@ namespace ESFA.DC.PublicApi.AS.Services
             {
                 var collections = await context.ReturnPeriod
                     .Where(x => x.StartDateTimeUtc <= dateTimeUtc && x.Collection.CollectionType.Type == IlrCollectionType)
-                    .GroupBy(x => new { x.CollectionId })
-                    .Select(x => x.Key.CollectionId)
+                    .Select(x => x.Collection.CollectionId)
+                    .Distinct()
                     .ToListAsync(cancellationToken);
 
                 var data = context.ReturnPeriod
