@@ -6,6 +6,7 @@ using ESFA.DC.Api.Common.Extensions;
 using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.PublicApi.AS.Constants;
 using ESFA.DC.PublicApi.AS.Services;
+using ESFA.DC.PublicApi.AS.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
