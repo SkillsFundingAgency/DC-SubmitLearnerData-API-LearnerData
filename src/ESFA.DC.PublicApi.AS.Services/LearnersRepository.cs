@@ -8,6 +8,7 @@ using ESFA.DC.Api.Common.Paging.Pagination;
 using ESFA.DC.ILR1920.DataStore.EF.Interface;
 using ESFA.DC.ILR1920.DataStore.EF.Valid;
 using ESFA.DC.ILR1920.DataStore.EF.Valid.Interface;
+using ESFA.DC.PublicApi.AS.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.PublicApi.AS.Services

@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using Autofac;
 using ESFA.DC.Api.Common.Settings;
+using ESFA.DC.DateTimeProvider.Interface;
 using ESFA.DC.ILR1920.DataStore.EF;
 using ESFA.DC.ILR1920.DataStore.EF.Interface;
 using ESFA.DC.ILR1920.DataStore.EF.Valid;
 using ESFA.DC.ILR1920.DataStore.EF.Valid.Interface;
+using ESFA.DC.JobQueueManager;
+using ESFA.DC.JobQueueManager.Data;
 using ESFA.DC.PublicApi.AS.Services;
+using ESFA.DC.PublicApi.AS.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.PublicApi.AS.Ioc
@@ -15,9 +19,26 @@ namespace ESFA.DC.PublicApi.AS.Ioc
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<ILR1920_DataStoreEntitiesValid>().As<IIlr1920ValidContext>().InstancePerLifetimeScope();
-            builder.RegisterType<ILR1920_DataStoreEntities>().As<IIlr1920RulebaseContext>().InstancePerLifetimeScope();
+            builder.RegisterType<ILR1920_DataStoreEntitiesValid>().As<IIlr1920ValidContext>().ExternallyOwned();
+            builder.RegisterType<ILR1920_DataStoreEntities>().As<IIlr1920RulebaseContext>().ExternallyOwned();
+            builder.RegisterType<JobQueueDataContext>().As<IJobQueueDataContext>().ExternallyOwned();
+
             builder.RegisterType<LearnersRepository>().As<ILearnersRepository>();
+            builder.RegisterType<AcademicYearsRepository>().As<IAcademicYearsRepository>();
+            builder.RegisterType<DateTimeProvider.DateTimeProvider>().As<IDateTimeProvider>();
+
+            builder.Register(context =>
+                {
+                    var connectionStrings = context.Resolve<ConnectionStrings>();
+                    var optionsBuilder = new DbContextOptionsBuilder<JobQueueDataContext>();
+                    optionsBuilder.UseSqlServer(
+                        connectionStrings.KeyValues["JobManagement"],
+                        options => options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), new List<int>()));
+
+                    return optionsBuilder.Options;
+                })
+                .As<DbContextOptions<JobQueueDataContext>>()
+                .SingleInstance();
 
             builder.Register(context =>
                 {

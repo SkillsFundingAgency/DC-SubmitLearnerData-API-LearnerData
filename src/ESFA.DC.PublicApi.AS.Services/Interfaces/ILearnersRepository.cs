@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.Api.Common.Paging.Interfaces;
 
-namespace ESFA.DC.PublicApi.AS.Services
+namespace ESFA.DC.PublicApi.AS.Services.Interfaces
 {
     public interface ILearnersRepository
     {
