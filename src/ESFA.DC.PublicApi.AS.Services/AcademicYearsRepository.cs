@@ -19,7 +19,7 @@ namespace ESFA.DC.PublicApi.AS.Services
         private readonly Func<IJobQueueDataContext> _jobQueDatacontextFactory;
         private readonly string IlrCollectionType = "ILR";
 
-        public AcademicYearsRepository(IDateTimeProvider dateTimeProvider,Func<IJobQueueDataContext> jobQueDatacontextFactory)
+        public AcademicYearsRepository(IDateTimeProvider dateTimeProvider, Func<IJobQueueDataContext> jobQueDatacontextFactory)
         {
             _dateTimeProvider = dateTimeProvider;
             _jobQueDatacontextFactory = jobQueDatacontextFactory;
@@ -39,16 +39,21 @@ namespace ESFA.DC.PublicApi.AS.Services
 
                 var data = context.ReturnPeriod
                     .Where(x => collections.Contains(x.CollectionId))
-                    .GroupBy(x => new {x.Collection.CollectionYear})
+                    .GroupBy(x => new { x.Collection.CollectionYear })
                     .Select(x => new
                     {
                         CollectionYear = x.Key.CollectionYear.Value,
                         MaxPeriodClosedDate = x.Max(y => y.EndDateTimeUtc)
-                    })
-                    .Where(y => includeClosed.GetValueOrDefault() || y.MaxPeriodClosedDate >= dateTimeUtc)
-                    .Select(x => x.CollectionYear).OrderByDescending(x => x);
+                    }).AsQueryable();
 
-                var result = await PaginatedResultFactory<int>.CreatePaginatedResultAsync(data,pageSize, pageNumber,cancellationToken);
+                    if (!includeClosed.GetValueOrDefault())
+                    { 
+                        data = data.Where(y => y.MaxPeriodClosedDate >= dateTimeUtc);
+                    }
+
+                var projectedData = data.Select(x => x.CollectionYear).OrderByDescending(x => x);
+
+                var result = await PaginatedResultFactory<int>.CreatePaginatedResultAsync(projectedData, pageSize, pageNumber, cancellationToken);
                 return result;
             }
         }
