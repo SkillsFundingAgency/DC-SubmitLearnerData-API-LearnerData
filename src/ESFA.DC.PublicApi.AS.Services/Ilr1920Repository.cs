@@ -13,12 +13,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.PublicApi.AS.Services
 {
-    public class LearnersRepository : ILearnersRepository
+    public class Ilr1920Repository : IlrRepository
     {
         private readonly Func<IIlr1920ValidContext> _ilr1920ValidContext;
         private readonly Func<IIlr1920RulebaseContext> _ilr1920RulebaseContext;
 
-        public LearnersRepository(Func<IIlr1920ValidContext> ilr1920ValidContext, Func<IIlr1920RulebaseContext> ilr1920RulebaseContext)
+        public Ilr1920Repository(Func<IIlr1920ValidContext> ilr1920ValidContext, Func<IIlr1920RulebaseContext> ilr1920RulebaseContext)
         {
             _ilr1920ValidContext = ilr1920ValidContext;
             _ilr1920RulebaseContext = ilr1920RulebaseContext;
