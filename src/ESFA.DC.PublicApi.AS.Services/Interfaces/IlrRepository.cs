@@ -5,7 +5,7 @@ using ESFA.DC.Api.Common.Paging.Interfaces;
 
 namespace ESFA.DC.PublicApi.AS.Services.Interfaces
 {
-    public interface ILearnersRepository
+    public interface IlrRepository
     {
 
         Task<IPaginatedResult<int>> GetSubmittingProviders(CancellationToken cancellationToken, DateTime? startDateTime = null, int pageSize = 0, int pageNumber = 0);

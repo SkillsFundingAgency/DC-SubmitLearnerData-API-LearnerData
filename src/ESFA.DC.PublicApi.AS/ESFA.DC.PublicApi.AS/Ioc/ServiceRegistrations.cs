@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Autofac;
+using Autofac.Features.AttributeFilters;
 using ESFA.DC.Api.Common.Settings;
 using ESFA.DC.DateTimeProvider.Interface;
 using ESFA.DC.ILR1920.DataStore.EF;
@@ -23,7 +24,8 @@ namespace ESFA.DC.PublicApi.AS.Ioc
             builder.RegisterType<ILR1920_DataStoreEntities>().As<IIlr1920RulebaseContext>().ExternallyOwned();
             builder.RegisterType<JobQueueDataContext>().As<IJobQueueDataContext>().ExternallyOwned();
 
-            builder.RegisterType<LearnersRepository>().As<ILearnersRepository>();
+            builder.RegisterType<Ilr1920Repository>().Keyed<IlrRepository>(1920).WithAttributeFiltering().ExternallyOwned();
+
             builder.RegisterType<AcademicYearsRepository>().As<IAcademicYearsRepository>();
             builder.RegisterType<DateTimeProvider.DateTimeProvider>().As<IDateTimeProvider>();
 
