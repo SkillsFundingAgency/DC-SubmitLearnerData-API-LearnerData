@@ -16,6 +16,7 @@
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="ESFA.DC.Api.Common" Version="0.1.7" />
     <PackageReference Include="ESFA.DC.DateTimeProvider" Version="0.1.6-beta0001" />
+    <PackageReference Include="ESFA.DC.ILR.2021.Database.EF" Version="0.1.154" />
     <PackageReference Include="ESFA.DC.Logging" Version="0.1.10-beta0001" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="4.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
