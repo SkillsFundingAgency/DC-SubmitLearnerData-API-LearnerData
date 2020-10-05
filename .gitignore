@@ -330,3 +330,4 @@ ASALocalRun/
 .mfractor/
 /src/ESFA.DC.PublicApi.AS/ESFA.DC.PublicApi.AS/appsettings.salman..json
 /src/ESFA.DC.PublicApi.AS/ESFA.DC.PublicApi.AS/appsettings.salman.json
+/src/ESFA.DC.PublicApi.AS/ESFA.DC.PublicApi.AS/appsettings.*.json

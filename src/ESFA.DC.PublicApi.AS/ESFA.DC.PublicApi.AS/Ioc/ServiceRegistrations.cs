@@ -32,6 +32,7 @@ namespace ESFA.DC.PublicApi.AS.Ioc
             builder.RegisterType<Ilr2021Repository>().Keyed<IlrRepository>(2021).WithAttributeFiltering().ExternallyOwned();
 
             builder.RegisterType<AcademicYearsRepository>().As<IAcademicYearsRepository>();
+            builder.RegisterType<LearnerApiAvailabilityService>().As<ILearnerApiAvailabilityService>();
             builder.RegisterType<DateTimeProvider.DateTimeProvider>().As<IDateTimeProvider>();
 
             builder.Register(context =>

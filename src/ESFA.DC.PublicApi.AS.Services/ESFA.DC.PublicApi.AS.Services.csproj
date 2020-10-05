@@ -10,7 +10,7 @@
     <PackageReference Include="ESFA.DC.DateTimeProvider.Interface" Version="0.1.6-beta0001" />
     <PackageReference Include="ESFA.DC.ILR.2021.Database.EF" Version="0.1.154" />
     <PackageReference Include="ESFA.DC.ILR1920.Database.EF" Version="0.0.561" />
-    <PackageReference Include="ESFA.DC.JobQueueManager.Data" Version="0.2.75-beta0001" />
+    <PackageReference Include="ESFA.DC.JobQueueManager.Data" Version="0.2.93-beta0001" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
   </ItemGroup>
 
