@@ -26,7 +26,7 @@ namespace ESFA.DC.PublicApi.AS.Services
             return string.IsNullOrWhiteSpace(data) ? default(T) : _jsonSerializationService.Deserialize<T>(data);
         }
 
-        public async Task<string> GetDataAsync(string url, CancellationToken cancellationToken)
+        private async Task<string> GetDataAsync(string url, CancellationToken cancellationToken)
         {
             var response = await _httpClient.GetAsync(new Uri(url), cancellationToken);
             response.EnsureSuccessStatusCode();
