@@ -23,12 +23,7 @@ namespace ESFA.DC.PublicApi.AS.Services
             {
                 var isApiDisabled = await context.ApiAvailability.AnyAsync(x => x.ApiName == LearnerApi && x.Enabled == false);
 
-                if (isApiDisabled)
-                {
-                    return false;
-                }
-
-                return true;
+                return !isApiDisabled;
             }
         }
     }
