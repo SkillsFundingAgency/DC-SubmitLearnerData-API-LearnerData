@@ -17,6 +17,7 @@ namespace ESFA.DC.PublicApi.AS
         public override void ConfigureContainer(ContainerBuilder containerBuilder)
         {
             containerBuilder.SetupConfigurations(Configuration);
+            containerBuilder.SetupLearnerApiConfigurations(Configuration);
             containerBuilder.RegisterModule<ServiceRegistrations>();
             containerBuilder.RegisterModule<LoggerRegistrations>();
         }

@@ -22,11 +22,13 @@ namespace ESFA.DC.PublicApi.AS.Controllers
     {
         private readonly ILogger _logger;
         private readonly IIndex<int, IlrRepository> _ilrRepositories;
+        private readonly ILearnerApiAvailabilityService _learnerApiAvailabilityService;
 
-        public IlrDataController(ILogger logger, IIndex<int, IlrRepository> ilrRepositories)
+        public IlrDataController(ILogger logger, IIndex<int, IlrRepository> ilrRepositories, ILearnerApiAvailabilityService learnerApiAvailabilityService)
         {
             _logger = logger;
             _ilrRepositories = ilrRepositories;
+            _learnerApiAvailabilityService = learnerApiAvailabilityService;
         }
 
         ///  <summary>
@@ -133,6 +135,13 @@ namespace ESFA.DC.PublicApi.AS.Controllers
                 if (repository == null)
                 {
                     _logger.LogDebug($"Call to GetLearners completed with no content - academic year {academicYear} not supported.");
+                    return NoContent();
+                }
+
+                var apiAvailable = await _learnerApiAvailabilityService.IsLearnerApiAvailableAsync(cancellationToken);
+                if (!apiAvailable)
+                {
+                    _logger.LogDebug($"Learner Api is not available.");
                     return NoContent();
                 }
 

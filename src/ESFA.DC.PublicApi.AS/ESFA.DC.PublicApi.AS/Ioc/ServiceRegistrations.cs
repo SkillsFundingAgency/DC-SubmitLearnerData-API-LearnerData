@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using Autofac;
 using Autofac.Features.AttributeFilters;
 using ESFA.DC.Api.Common.Settings;
@@ -10,10 +11,11 @@ using ESFA.DC.ILR1920.DataStore.EF.Valid;
 using ESFA.DC.ILR1920.DataStore.EF.Valid.Interface;
 using ESFA.DC.ILR2021.DataStore.EF;
 using ESFA.DC.ILR2021.DataStore.EF.Interface;
-using ESFA.DC.JobQueueManager;
 using ESFA.DC.JobQueueManager.Data;
 using ESFA.DC.PublicApi.AS.Services;
 using ESFA.DC.PublicApi.AS.Services.Interfaces;
+using ESFA.DC.Serialization.Interfaces;
+using ESFA.DC.Serialization.Json;
 using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.PublicApi.AS.Ioc
@@ -32,6 +34,10 @@ namespace ESFA.DC.PublicApi.AS.Ioc
             builder.RegisterType<Ilr2021Repository>().Keyed<IlrRepository>(2021).WithAttributeFiltering().ExternallyOwned();
 
             builder.RegisterType<AcademicYearsRepository>().As<IAcademicYearsRepository>();
+            builder.RegisterType<HttpClient>().SingleInstance();
+            builder.RegisterType<HttpClientService>().As<IHttpClientService>();
+            builder.RegisterType<LearnerApiAvailabilityService>().As<ILearnerApiAvailabilityService>();
+            builder.RegisterType<JsonSerializationService>().As<IJsonSerializationService>();
             builder.RegisterType<DateTimeProvider.DateTimeProvider>().As<IDateTimeProvider>();
 
             builder.Register(context =>
