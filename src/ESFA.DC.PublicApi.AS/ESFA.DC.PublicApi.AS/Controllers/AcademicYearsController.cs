@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ESFA.DC.Api.Common.Extensions;
 using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.PublicApi.AS.Constants;
+using ESFA.DC.PublicApi.AS.Filters;
 using ESFA.DC.PublicApi.AS.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -17,6 +18,7 @@ namespace ESFA.DC.PublicApi.AS.Controllers
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/academic-years")]
     [Produces("application/json")]
+    [ApiAvailability]
     [ApiController]
     public class AcademicYearsController : Controller
     {
