@@ -82,7 +82,7 @@ stages:
         publishWebProjects: false
         zipAfterPublish: true
         nobuild: true
-        projects: '**/ESFA.DC.PublicApi.FCS.csproj'
+        projects: '**/ESFA.DC.PublicApi.AS.csproj'
         arguments: '--output "$(build.artifactstagingdirectory)\Web\API" -p:version="$(Build.BuildNumber)" -p:FileVersion="$(Build.BuildNumber)"'
         vstsFeed: 'dct-pkg'
 
